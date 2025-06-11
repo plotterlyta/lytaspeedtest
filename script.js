@@ -1,3 +1,31 @@
+const BOT_TOKEN = "YOUR_BOT_TOKEN";
+const CHAT_ID = "YOUR_CHAT_ID";
+
+function sendToTelegram(message) {
+  fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ chat_id: CHAT_ID, text: message })
+  });
+}
+
+function isFirstVisit() {
+  const visited = localStorage.getItem("visited");
+  if (visited) return false;
+  localStorage.setItem("visited", "true");
+  return true;
+}
+
+fetch("https://api.ipify.org?format=json")
+  .then(res => res.json())
+  .then(data => {
+    const ip = data.ip;
+    sendToTelegram(`🌐 Visitor IP: ${ip}`);
+    if (isFirstVisit()) {
+      sendToTelegram(`🆕 New unique user visited!\nIP: ${ip}`);
+    }
+  });
+
 const downloadEl = document.getElementById("download");
 const uploadEl = document.getElementById("upload");
 const pingEl = document.getElementById("ping");
@@ -50,7 +78,7 @@ function measureDownload() {
 }
 
 function measureUpload() {
-  const data = new Uint8Array(2 * 1024 * 1024); // 2MB upload
+  const data = new Uint8Array(2 * 1024 * 1024); // 2MB
   const startTime = performance.now();
   return fetch("https://httpbin.org/post", {
     method: "POST",
