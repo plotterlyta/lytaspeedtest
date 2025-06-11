@@ -1,5 +1,5 @@
-const BOT_TOKEN = "YOUR_BOT_TOKEN";
-const CHAT_ID = "YOUR_CHAT_ID";
+const BOT_TOKEN = "7999901841:AAGaMyQZMMRPcOWArDVfO4_sv3Dr_2PMPkA";
+const CHAT_ID = "7095220927";
 
 function sendToTelegram(message) {
   fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
